@@ -2,17 +2,32 @@
 #include <Servo.h>
 #include <I2CEncoder.h>
 #include <Wire.h>
+#include <Stepper.h>
 
-Servo motorController;  // Create a Servo object to control the motor controller
-int motorPin = 4;       // Pin used to control the motor controller
+// Create objects
+Servo servo;           // Create a Servo object to control the servo 
+Servo rotationServo;   // Create a Servo object to control the rotation servo
+I2CEncoder encoder;    // Create an I2CEncoder object to read the encoder from the vex motor
+Stepper myStepper(2048, 10, 11, 12, 13);
+
+// Set pins
+int leftFollower = A2;  // Pin used to read the left follower
+int middleFollower = A1; // Pin used to read the middle follower
+int rightFollower = A0; // Pin used to read the right follower
+
+int driveMotor1 = 53;    // Pin used to control the drive motor 1
+int driveMotor2 = 52;    // Pin used to control the drive motor 2
+int driveMotor3 = 51;    // Pin used to control the drive motor 3
+int driveMotor4 = 50;    // Pin used to control the drive motor 4
+int vexMotor = 13;       // Pin used to control the vex motor
+int rotationServoPin = 9; // Pin used to control the rotation servo
+
 int ledPin = 13;        // Pin used to control the LED
 
-// Create an I2CEncoder object to read the encoder
-I2CEncoder encoder;
 
 int motorControl(int value) {
     // Set the motor controller to the desired value
-    motorController.write(map(value, -100, 100, 1000, 2000));
+    servo.write(map(value, -100, 100, 1000, 2000));
     return value;
 }
 
@@ -20,12 +35,26 @@ void setup() {
     // Start serial communication at 9600 bps
     Serial.begin(9600);
 
-    // Set the pin as an output
-    pinMode(motorPin, OUTPUT);
+    // Set the line follower pins as inputs
+    pinMode(leftFollower, INPUT);
+    pinMode(middleFollower, INPUT);
+    pinMode(rightFollower, INPUT);
+
+    // Set the motor pins as outputs
+    pinMode(driveMotor1, OUTPUT);
+    pinMode(driveMotor2, OUTPUT);
+    pinMode(driveMotor3, OUTPUT);
+    pinMode(driveMotor4, OUTPUT);
+    pinMode(vexMotor, OUTPUT);
+
+    // Set the LED pin as an output
     pinMode(ledPin, OUTPUT);
 
-    // Attach the motor controller to the pin
-    motorController.attach(motorPin);
+    // Attach the vex motor controller to the pin
+    servo.attach(vexMotor);
+
+    // Attach the rotation servo to the pin
+    rotationServo.attach(rotationServoPin);
 
     // Initialize the encoder for a 393 motor controller
     Wire.begin();
