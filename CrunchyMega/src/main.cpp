@@ -15,6 +15,7 @@ int leftFollower = A2;  // Pin used to read the left follower
 int middleFollower = A1; // Pin used to read the middle follower
 int rightFollower = A0; // Pin used to read the right follower
 int lineThreshold = 700;
+int lineThreshold = 700;
 
 // Left Wheel motor pins
 int driveMotor1 = 13;    // Pin used to control the drive motor 1
