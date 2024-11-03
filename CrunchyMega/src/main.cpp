@@ -14,7 +14,7 @@ Stepper myStepper(2048, 10, 11, 12, 13);
 int leftFollower = A2;  // Pin used to read the left follower
 int middleFollower = A1; // Pin used to read the middle follower
 int rightFollower = A0; // Pin used to read the right follower
-int lineThreshold = 700
+int lineThreshold = 700;
 
 // Left Wheel motor pins
 int driveMotor1 = 53;    // Pin used to control the drive motor 1
@@ -25,7 +25,7 @@ int driveMotor3 = 51;    // Pin used to control the drive motor 3
 int driveMotor4 = 50;    // Pin used to control the drive motor 4
 
 // Arm Motor pins
-int vexMotor = 13;       // Pin used to control the vex motor
+int vexMotor = 8;       // Pin used to control the vex motor
 int rotationServoPin = 9; // Pin used to control the rotation servo
 
 int ledPin = 13;        // Pin used to control the LED
