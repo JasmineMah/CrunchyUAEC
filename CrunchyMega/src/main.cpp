@@ -15,7 +15,6 @@ int leftFollower = A2;  // Pin used to read the left follower
 int middleFollower = A1; // Pin used to read the middle follower
 int rightFollower = A0; // Pin used to read the right follower
 int lineThreshold = 700;
-int lineThreshold = 700;
 
 // Left Wheel motor pins
 int driveMotor1 = 13;    // Pin used to control the drive motor 1
@@ -30,7 +29,7 @@ int vexMotor = 9;       // Pin used to control the vex motor
 int stepMotor = 8;
 int rotationServoPin = 7; // Pin used to control the rotation servo
 
-int ledPin = 7;        // Pin used to control the LED
+int ledPin = 6;        // Pin used to control the LED
 
 
 int motorControl(int value) {
@@ -134,48 +133,63 @@ void loop() {
     int vex = receivedData.substring(index3 + 1, index4).toInt();
     int servo = receivedData.substring(index4 + 1).toInt();
 
+    bool leftW_bool1 = false;
+    bool leftW_bool2 = false;
+    bool rightW_bool3 = false;
+    bool rightW_bool4 = false;
+    if(rightW > 0){
+        leftW_bool1 = true;
+        leftW_bool2 = false;
+    }
+    if(rightW > 0){
+        rightW_bool3 = true;
+        rightW_bool4 = false;
+    }
+
     // Move each motor according to recieved values
-    digitalWrite(driveMotor1, leftW);
-    digitalWrite(driveMotor2, leftW);
-    digitalWrite(driveMotor3, rightW);
-    digitalWrite(driveMotor4, rightW);
+    digitalWrite(driveMotor1, leftW_bool1);
+    digitalWrite(driveMotor2, leftW_bool2);
+    digitalWrite(driveMotor3, rightW_bool3);
+    digitalWrite(driveMotor4, rightW_bool4);
     digitalWrite(stepMotor, step);
     digitalWrite(vexMotor, vex);
     digitalWrite(rotationServoPin, servo);
+
+    delay(2000);
   }
 
-    // Read Line sensors as values
-    int lDetected = analogRead(A2);
-    int mDetected = analogRead(A1);
-    int rDetected = analogRead(A0);
-    delay(500);
+    // // Read Line sensors as values
+    // int lDetected = analogRead(A2);
+    // int mDetected = analogRead(A1);
+    // int rDetected = analogRead(A0);
+    // delay(500);
 
-    // RIGHT sensor sees dark:
-    if(rDetected > lineThreshold){
-        // counter-steer right:
-        digitalWrite(driveMotor1, 63);
-        digitalWrite(driveMotor2, 63);
-        digitalWrite(driveMotor3, 0);
-        digitalWrite(driveMotor4, 0);
-    }
-    // CENTER sensor sees dark:
-    if(mDetected > lineThreshold){
-        // go straight
-        digitalWrite(driveMotor1, 63);
-        digitalWrite(driveMotor2, 63);
-        digitalWrite(driveMotor3, 63);
-        digitalWrite(driveMotor4, 63);
-    }
-    // LEFT sensor sees dark:
-    if(lDetected > lineThreshold){
-        // counter-steer left:
-        digitalWrite(driveMotor1, 0);
-        digitalWrite(driveMotor2, 0);
-        digitalWrite(driveMotor3, 63);
-        digitalWrite(driveMotor4, 63);
-    }
-    // Stop
-    motorControl(0);
-    Serial.println("Motor stopped");
-    delay(5000);
+    // // RIGHT sensor sees dark:
+    // if(rDetected > lineThreshold){
+    //     // counter-steer right:
+    //     digitalWrite(driveMotor1, 63);
+    //     digitalWrite(driveMotor2, 63);
+    //     digitalWrite(driveMotor3, 0);
+    //     digitalWrite(driveMotor4, 0);
+    // }
+    // // CENTER sensor sees dark:
+    // if(mDetected > lineThreshold){
+    //     // go straight
+    //     digitalWrite(driveMotor1, 63);
+    //     digitalWrite(driveMotor2, 63);
+    //     digitalWrite(driveMotor3, 63);
+    //     digitalWrite(driveMotor4, 63);
+    // }
+    // // LEFT sensor sees dark:
+    // if(lDetected > lineThreshold){
+    //     // counter-steer left:
+    //     digitalWrite(driveMotor1, 0);
+    //     digitalWrite(driveMotor2, 0);
+    //     digitalWrite(driveMotor3, 63);
+    //     digitalWrite(driveMotor4, 63);
+    // }
+    // // Stop
+    // motorControl(0);
+    // Serial.println("Motor stopped");
+    // delay(5000);
 }
