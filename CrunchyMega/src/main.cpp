@@ -14,11 +14,17 @@ Stepper myStepper(2048, 10, 11, 12, 13);
 int leftFollower = A2;  // Pin used to read the left follower
 int middleFollower = A1; // Pin used to read the middle follower
 int rightFollower = A0; // Pin used to read the right follower
+int lineThreshold = 700
 
+// Left Wheel motor pins
 int driveMotor1 = 53;    // Pin used to control the drive motor 1
 int driveMotor2 = 52;    // Pin used to control the drive motor 2
+
+// Right Wheel Motor pins
 int driveMotor3 = 51;    // Pin used to control the drive motor 3
 int driveMotor4 = 50;    // Pin used to control the drive motor 4
+
+// Arm Motor pins
 int vexMotor = 13;       // Pin used to control the vex motor
 int rotationServoPin = 9; // Pin used to control the rotation servo
 
@@ -90,6 +96,36 @@ void loop() {
         delay(500);
     }
 
+    // Read Line sensors as values
+    lDetected = analogRead(A2)
+    mDetected = analogRead(A1)
+    rDetected = analogRead(A0)
+    delay(500);
+
+    // RIGHT sensor sees dark:
+    if(rDetected > LineThreshold){
+        // counter-steer right:
+        digitalWrite(driveMotor1, 63)
+        digitalWrite(driveMotor2, 63)
+        digitalWrite(driveMotor3, 0)
+        digitalWrite(driveMotor4, 0)
+    }
+    // CENTER sensor sees dark:
+    if(mDetected > LineThreshold){
+        // go straight
+        digitalWrite(driveMotor1, 63)
+        digitalWrite(driveMotor2, 63)
+        digitalWrite(driveMotor3, 63)
+        digitalWrite(driveMotor4, 63)
+    }
+    // LEFT sensor sees dark:
+    if(lDetected > LineThreshold){
+        // counter-steer left:
+        digitalWrite(driveMotor1, 0)
+        digitalWrite(driveMotor2, 0)
+        digitalWrite(driveMotor3, 63)
+        digitalWrite(driveMotor4, 63)
+    }
     // Stop
     motorControl(0);
     Serial.println("Motor stopped");
